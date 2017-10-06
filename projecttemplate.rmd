@@ -40,11 +40,81 @@ just to help you get started.
 ```{r echo=FALSE, Univariate_Plots}
 summary(WhiteWineData$fixed.acidity)
 
+qplot(data = WhiteWineData, x = WhiteWineData$fixed.acidity)
+
 qplot(data = WhiteWineData, x = WhiteWineData$fixed.acidity, binwidth = .1) +
   scale_x_continuous(breaks = 3:15) +
   facet_grid(quality~.) +
     theme(strip.text.y = element_text(size=12, face="bold", angle = 360))
 ```
+
+```{r echo=FALSE, Univariate_Plots}
+summary(WhiteWineData$volatile.acidity)
+
+qplot(data = WhiteWineData, x = WhiteWineData$volatile.acidity)
+```
+
+```{r echo=FALSE, Univariate_Plots}
+summary(WhiteWineData$citric.acid)
+
+qplot(data = WhiteWineData, x = WhiteWineData$citric.acid)
+```
+
+```{r echo=FALSE, Univariate_Plots}
+summary(WhiteWineData$residual.sugar)
+
+qplot(data = WhiteWineData, x = WhiteWineData$residual.sugar)
+```
+
+```{r echo=FALSE, Univariate_Plots}
+summary(WhiteWineData$chlorides)
+
+qplot(data = WhiteWineData, x = WhiteWineData$chlorides)
+```
+
+```{r echo=FALSE, Univariate_Plots}
+summary(WhiteWineData$free.sulfur.dioxide)
+
+qplot(data = WhiteWineData, x = WhiteWineData$free.sulfur.dioxide)
+```
+
+```{r echo=FALSE, Univariate_Plots}
+summary(WhiteWineData$total.sulfur.dioxide)
+
+qplot(data = WhiteWineData, x = WhiteWineData$total.sulfur.dioxide)
+```
+
+```{r echo=FALSE, Univariate_Plots}
+summary(WhiteWineData$density)
+
+qplot(data = WhiteWineData, x = WhiteWineData$density)
+```
+
+```{r echo=FALSE, Univariate_Plots}
+summary(WhiteWineData$pH)
+
+qplot(data = WhiteWineData, x = WhiteWineData$pH)
+```
+
+```{r echo=FALSE, Univariate_Plots}
+summary(WhiteWineData$sulphates)
+
+qplot(data = WhiteWineData, x = WhiteWineData$sulphates)
+```
+
+```{r echo=FALSE, Univariate_Plots}
+summary(WhiteWineData$alcohol)
+
+qplot(data = WhiteWineData, x = WhiteWineData$residual.sugar)
+```
+
+```{r echo=FALSE, Univariate_Plots}
+summary(WhiteWineData$quality)
+
+qplot(data = WhiteWineData, x = WhiteWineData$quality)
+```
+
+
 > **Tip**: Make sure that you leave a blank line between the start / end of
 each code block and the end / start of your Markdown text so that it is
 formatted nicely in the knitted text. Note as well that text on consecutive
