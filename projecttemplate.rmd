@@ -39,9 +39,11 @@ just to help you get started.
 
 ```{r echo=FALSE, Univariate_Plots}
 summary(WhiteWineData$fixed.acidity)
+
 qplot(data = WhiteWineData, x = WhiteWineData$fixed.acidity, binwidth = .1) +
   scale_x_continuous(breaks = 3:15) +
-  facet_grid(quality~.)
+  facet_grid(quality~.) +
+    theme(strip.text.y = element_text(size=12, face="bold", angle = 360))
 ```
 > **Tip**: Make sure that you leave a blank line between the start / end of
 each code block and the end / start of your Markdown text so that it is
