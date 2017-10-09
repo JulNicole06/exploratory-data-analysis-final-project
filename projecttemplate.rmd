@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 White Wine Quality Analysis by Julia Fuhrman
 ========================================================
 
@@ -36,106 +41,204 @@ understand the structure of the individual variables in your dataset. Don't
 forget to add a comment after each plot or closely-related group of plots!
 There should be multiple code chunks and text sections; the first one below is
 just to help you get started.
+
 ```{r echo=FALSE, Univariate_Plots}
 summary(WhiteWineData)
 ```
 
+## Fixed Acidity (tartaric acid)
+
 ```{r echo=FALSE, Univariate_Plots}
-qplot(data = WhiteWineData, x = WhiteWineData$fixed.acidity, binwidth = .1,
-      xlab = "fixed acidity (tartaric acid - g / dm^3)",
+hist1 <- qplot(data = WhiteWineData, x = WhiteWineData$fixed.acidity, binwidth = .1,
+      xlab = "g / dm^3",
       color = I("black"),
       fill = I("pink"))+
   scale_x_continuous(lim = c(3,15), breaks = seq(3,15,1))
+
+box1 <- qplot(x = quality, y = fixed.acidity, data = WhiteWineData, geom = 'boxplot',
+              xlab = "rating",
+              ylab = "g / dm^3")+
+  coord_cartesian(ylim=c(5,10))
+
+grid.arrange(hist1, box1)
 ```
 
+## Volatile Acidity (acetic acid)
+
 ```{r echo=FALSE, Univariate_Plots}
-qplot(data = WhiteWineData, x = WhiteWineData$volatile.acidity, binwidth = .01,
-      xlab = "volatile acidity (acetic acid - g / dm^3)",
+hist2 <- qplot(data = WhiteWineData, x = WhiteWineData$volatile.acidity, binwidth = .01,
+      xlab = "g / dm^3",
       color = I("black"),
       fill = I("red"))+
   scale_x_continuous(lim = c(0,1.5), breaks = seq(0,1.5,.1))
+
+box2 <- qplot(x = quality, y = volatile.acidity, data = WhiteWineData, geom = 'boxplot',
+              xlab = "rating",
+              ylab = "g / dm^3")+
+  coord_cartesian(ylim=c(.1,.6))
+
+grid.arrange(hist2, box2)
 ```
 
+## Citric Acid
+
 ```{r echo=FALSE, Univariate_Plots}
-qplot(data = WhiteWineData, x = WhiteWineData$citric.acid, binwidth = .05,
-      xlab = "citric acid (g / dm^3)",
+hist3 <- qplot(data = WhiteWineData, x = WhiteWineData$citric.acid, binwidth = .05,
+      xlab = "g / dm^3",
       color = I("black"),
       fill = I("orange"))+
   scale_x_continuous(lim = c(0,2), breaks = seq(0,2,.2))
+
+box3 <- qplot(x = quality, y = citric.acid, data = WhiteWineData, geom = 'boxplot',
+              xlab = "rating",
+              ylab = "g / gm^3")+
+  coord_cartesian(ylim=c(.1,.6))
+
+grid.arrange(hist3, box3)
 ```
+
+## Residual Sugar
 
 ```{r echo=FALSE, Univariate_Plots}
 p1 <- qplot(data = WhiteWineData, x = WhiteWineData$residual.sugar,
-      xlab = "residual sugar (g / dm^3)",
+      xlab = "g / dm^3",
       color = I("black"),
       fill = I("dark grey"))
 
 p2 <- p1 + scale_x_log10()
 
-grid.arrange(p1, p2)
+p3 <- qplot(x = quality, y = residual.sugar, data = WhiteWineData, geom = 'boxplot',
+            xlab = "rating",
+            ylab = "g / dm^3")+
+  coord_cartesian(ylim=c(0,15))
+
+grid.arrange(p1, p2, p3)
 ```
 
+## Chlorides (sodium chloride)
+
 ```{r echo=FALSE, Univariate_Plots}
-qplot(data = WhiteWineData, x = WhiteWineData$chlorides, binwidth = .005,
-      xlab = "chlorides (sodium chloride - g / dm^3)",
+hist4 <- qplot(data = WhiteWineData, x = WhiteWineData$chlorides, binwidth = .005,
+      xlab = "g / dm^3",
       color = I("black"),
       fill = I("blue"))+
   scale_x_continuous(lim = c(0,.35), breaks = seq(0,.35,.05))
+
+box4 <- qplot(x = quality, y = chlorides, data = WhiteWineData, geom = 'boxplot',
+              xlab = "rating",
+              ylab = "g / dm^3")+
+  coord_cartesian(ylim=c(0.01,.075))
+
+grid.arrange(hist4, box4)
 ```
 
+## Free Sulfur Dioxide
+
 ```{r echo=FALSE, Univariate_Plots}
-qplot(data = WhiteWineData, x = WhiteWineData$free.sulfur.dioxide, binwidth = 5,
-      xlab = "free sulfur dioxide (mg / dm^3)",
+hist5 <- qplot(data = WhiteWineData, x = WhiteWineData$free.sulfur.dioxide, binwidth = 5,
+      xlab = "mg / dm^3",
       color = I("black"),
       fill = I("yellow"))+
   scale_x_continuous(lim = c(0,300), breaks = seq(0,300,20))
+
+box5 <- qplot(x = quality, y = free.sulfur.dioxide, data = WhiteWineData, geom = 'boxplot',
+              xlab = "rating",
+              ylab = "mg / dm^3")+
+  coord_cartesian(ylim=c(0,75))
+
+grid.arrange(hist5, box5)
 ```
 
+## Total Sulfur Dioxide
+
 ```{r echo=FALSE, Univariate_Plots}
-qplot(data = WhiteWineData, x = WhiteWineData$total.sulfur.dioxide, binwidth = 10,
-      xlab = "total sulfur dioxide (mg / dm^3)",
+hist6 <- qplot(data = WhiteWineData, x = WhiteWineData$total.sulfur.dioxide, binwidth = 10,
+      xlab = "mg / dm^3",
       color = I("black"),
       fill = I("brown"))+
   scale_x_continuous(lim = c(0,450), breaks = seq(0,450,20))
+
+box6 <- qplot(x = quality, y = total.sulfur.dioxide, data = WhiteWineData, geom = 'boxplot',
+              xlab = "rating",
+              ylab = "mg / dm^3")+
+  coord_cartesian(ylim=c(50,250))
+
+grid.arrange(hist6, box6)
 ```
 
+## Density
+
 ```{r echo=FALSE, Univariate_Plots}
-qplot(data = WhiteWineData, x = WhiteWineData$density, binwidth = .001,
-      xlab = "density (g / cm^3)",
+hist7 <- qplot(data = WhiteWineData, x = WhiteWineData$density, binwidth = .001,
+      xlab = "g / cm^3",
       color = I("black"),
       fill = I("green"))+
   scale_x_continuous(lim = c(.98,1.05), breaks = seq(.98,1.05,.01))
+
+box7 <- qplot(x = quality, y = density, data = WhiteWineData, geom = 'boxplot',
+              xlab = "rating",
+              ylab = "g / cm^3")+
+  coord_cartesian(ylim=c(.985,1))
+
+grid.arrange(hist7, box7)
 ```
 
+## pH
+
 ```{r echo=FALSE, Univariate_Plots}
-qplot(data = WhiteWineData, x = WhiteWineData$pH, binwidth = .05,
+hist8 <- qplot(data = WhiteWineData, x = WhiteWineData$pH, binwidth = .05,
       xlab = "pH",
       color = I("black"),
       fill = I("purple"))+
   scale_x_continuous(lim = c(2.5,4), breaks = seq(2.5,4,.1))
 
+box8 <- qplot(x = quality, y = pH, data = WhiteWineData, geom = 'boxplot',
+              xlab = "rating",
+              ylab = "pH")+
+  coord_cartesian(ylim=c(2.9,3.5))
+
+grid.arrange(hist8, box8)
 ```
 
+## Sulphates (postassium sulphate)
+
 ```{r echo=FALSE, Univariate_Plots}
-qplot(data = WhiteWineData, x = WhiteWineData$sulphates, binwidth = .01,
-      xlab = "sulphates (potassium sulphate - g / dm3)",
+hist9 <- qplot(data = WhiteWineData, x = WhiteWineData$sulphates, binwidth = .01,
+      xlab = "g / dm^3",
       color = I("black"),
       fill = I("dark green"))+
   scale_x_continuous(lim = c(0,1.1), breaks = seq(0,1.1,.1))
 
+box9 <- qplot(x = quality, y = sulphates, data = WhiteWineData, geom = 'boxplot',
+              xlab = "rating",
+              ylab = "g / dm^3")+
+  coord_cartesian(ylim=c(.3,.65))
+
+grid.arrange(hist9, box9)
 ```
 
+## Alcohol
+
 ```{r echo=FALSE, Univariate_Plots}
-qplot(data = WhiteWineData, x = WhiteWineData$alcohol, binwidth = .5,
-      xlab = "alcohol (% by volume)",
+hist10 <- qplot(data = WhiteWineData, x = WhiteWineData$alcohol, binwidth = .5,
+      xlab = "% by volume",
       color = I("black"),
       fill = I("light blue"))+
   scale_x_continuous(lim = c(5,15), breaks = seq(5,15,1))
+
+box10 <- qplot(x = quality, y = alcohol, data = WhiteWineData, geom = 'boxplot',
+              xlab = "rating",
+              ylab = "% by volume")+
+  coord_cartesian(ylim=c(9,13))
+
+grid.arrange(hist10, box10)
 ```
+
+## Quality
 
 ```{r echo=FALSE, Univariate_Plots}
 qplot(data = WhiteWineData, x = WhiteWineData$quality, 
-      xlab = "quality (score between 0 and 10)",
+      xlab = "rating",
       color = I("black"),
       fill = I("light grey"))
 
