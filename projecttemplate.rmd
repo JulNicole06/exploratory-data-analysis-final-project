@@ -16,6 +16,7 @@ White Wine Quality Analysis by Julia Fuhrman
 
 library(ggplot2)
 library(ggthemes)
+library(gridExtra)
 ```
 
 ```{r echo=FALSE, Load_the_Data}
@@ -74,12 +75,18 @@ qplot(data = WhiteWineData, x = WhiteWineData$citric.acid, binwidth = .05,
 
 ```{r echo=FALSE, Univariate_Plots}
 summary(WhiteWineData$residual.sugar)
+summary(log10(WhiteWineData$residual.sugar))
 
-qplot(data = WhiteWineData, x = WhiteWineData$residual.sugar, binwidth = 1,
+p1 = qplot(data = WhiteWineData, x = WhiteWineData$residual.sugar,
       xlab = "residual sugar (g / dm^3)",
       color = I("black"),
-      fill = I("dark grey"))+
-  scale_x_continuous(lim = c(0,70), breaks = seq(0,70,5))
+      fill = I("dark grey"))
+
+p2 = p1 + scale_x_log10()
+
+grid.arrange(p1, p2)
+
+
 ```
 
 ```{r echo=FALSE, Univariate_Plots}
@@ -90,6 +97,7 @@ qplot(data = WhiteWineData, x = WhiteWineData$chlorides, binwidth = .005,
       color = I("black"),
       fill = I("blue"))+
   scale_x_continuous(lim = c(0,.35), breaks = seq(0,.35,.05))
+
 ```
 
 ```{r echo=FALSE, Univariate_Plots}
@@ -150,6 +158,7 @@ qplot(data = WhiteWineData, x = WhiteWineData$alcohol, binwidth = 1,
       color = I("black"),
       fill = I("light blue"))+
   scale_x_continuous(lim = c(5,15), breaks = seq(5,15,1))
+
 ```
 
 ```{r echo=FALSE, Univariate_Plots}
