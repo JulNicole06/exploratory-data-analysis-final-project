@@ -40,10 +40,12 @@ just to help you get started.
 ```{r echo=FALSE, Univariate_Plots}
 summary(WhiteWineData$fixed.acidity)
 
-qplot(data = WhiteWineData, x = WhiteWineData$fixed.acidity, binwidth = .1)
+qplot(data = WhiteWineData, x = WhiteWineData$fixed.acidity, binwidth = .1)+
+  scale_x_continuous(lim = c(3,15), breaks = seq(3,15,1))
+
 
 qplot(data = WhiteWineData, x = WhiteWineData$fixed.acidity, binwidth = .1) +
-  scale_x_continuous(breaks = 3:15) +
+  scale_x_continuous(lim = c(3,15), breaks = seq(3,15,1)) +
   facet_grid(quality~.) +
     theme(strip.text.y = element_text(size=12, face="bold", angle = 360))
 ```
@@ -51,67 +53,78 @@ qplot(data = WhiteWineData, x = WhiteWineData$fixed.acidity, binwidth = .1) +
 ```{r echo=FALSE, Univariate_Plots}
 summary(WhiteWineData$volatile.acidity)
 
-qplot(data = WhiteWineData, x = WhiteWineData$volatile.acidity, binwidth = .01)
+qplot(data = WhiteWineData, x = WhiteWineData$volatile.acidity, binwidth = .01)+
+  scale_x_continuous(lim = c(0,1.5), breaks = seq(0,1.5,.1))
 ```
 
 ```{r echo=FALSE, Univariate_Plots}
 summary(WhiteWineData$citric.acid)
 
-qplot(data = WhiteWineData, x = WhiteWineData$citric.acid, binwidth = .05)
+qplot(data = WhiteWineData, x = WhiteWineData$citric.acid, binwidth = .05)+
+  scale_x_continuous(lim = c(0,2), breaks = seq(0,2,.2))
 ```
 
 ```{r echo=FALSE, Univariate_Plots}
 summary(WhiteWineData$residual.sugar)
 
-qplot(data = WhiteWineData, x = WhiteWineData$residual.sugar, binwidth = 1)
+qplot(data = WhiteWineData, x = WhiteWineData$residual.sugar, binwidth = 1)+
+  scale_x_continuous(lim = c(0,70), breaks = seq(0,70,5))
 ```
 
 ```{r echo=FALSE, Univariate_Plots}
 summary(WhiteWineData$chlorides)
 
-qplot(data = WhiteWineData, x = WhiteWineData$chlorides, binwidth = .005)
+qplot(data = WhiteWineData, x = WhiteWineData$chlorides, binwidth = .005)+
+  scale_x_continuous(lim = c(0,.35), breaks = seq(0,.35,.05))
 ```
 
 ```{r echo=FALSE, Univariate_Plots}
 summary(WhiteWineData$free.sulfur.dioxide)
 
-qplot(data = WhiteWineData, x = WhiteWineData$free.sulfur.dioxide, binwidth = 5)
+qplot(data = WhiteWineData, x = WhiteWineData$free.sulfur.dioxide, binwidth = 5)+
+  scale_x_continuous(lim = c(0,300), breaks = seq(0,300,20))
 ```
 
 ```{r echo=FALSE, Univariate_Plots}
 summary(WhiteWineData$total.sulfur.dioxide)
 
-qplot(data = WhiteWineData, x = WhiteWineData$total.sulfur.dioxide, binwidth = 10)
+qplot(data = WhiteWineData, x = WhiteWineData$total.sulfur.dioxide, binwidth = 10)+
+  scale_x_continuous(lim = c(0,450), breaks = seq(0,450,20))
 ```
 
 ```{r echo=FALSE, Univariate_Plots}
 summary(WhiteWineData$density)
 
-qplot(data = WhiteWineData, x = WhiteWineData$density, binwidth = .001)
+qplot(data = WhiteWineData, x = WhiteWineData$density, binwidth = .001)+
+  scale_x_continuous(lim = c(.98,1.05), breaks = seq(.98,1.05,.01))
 ```
 
 ```{r echo=FALSE, Univariate_Plots}
 summary(WhiteWineData$pH)
 
-qplot(data = WhiteWineData, x = WhiteWineData$pH, binwidth = .05)
+qplot(data = WhiteWineData, x = WhiteWineData$pH, binwidth = .05)+
+  scale_x_continuous(lim = c(2.5,4), breaks = seq(2.5,4,.1))
 ```
 
 ```{r echo=FALSE, Univariate_Plots}
 summary(WhiteWineData$sulphates)
 
-qplot(data = WhiteWineData, x = WhiteWineData$sulphates, binwidth = .01)
+qplot(data = WhiteWineData, x = WhiteWineData$sulphates, binwidth = .01)+
+  scale_x_continuous(lim = c(0,1.1), breaks = seq(0,1.1,.1))
 ```
 
 ```{r echo=FALSE, Univariate_Plots}
 summary(WhiteWineData$alcohol)
 
-qplot(data = WhiteWineData, x = WhiteWineData$residual.sugar, binwidth = 1)
+qplot(data = WhiteWineData, x = WhiteWineData$alcohol, binwidth = 1)+
+  scale_x_continuous(lim = c(5,15), breaks = seq(5,15,1))
 ```
 
 ```{r echo=FALSE, Univariate_Plots}
 summary(WhiteWineData$quality)
 
 qplot(data = WhiteWineData, x = WhiteWineData$quality)
+
 ```
 
 
