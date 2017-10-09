@@ -17,3 +17,7 @@ https://docs.google.com/document/d/1qEcwltBMlRYZT-l699-71TzInWfk4W9q5rTCSvDVMpc/
 	Document downloaded from https://s3.amazonaws.com/udacity-hosted-downloads/ud651/wineQualityInfo.txt describing each variable in the White Wine Quality dataset
 
 2. projecttemplate.rmd : RMD Template provided by Udacity to structure the formatting of the project submission
+
+
+### Sources of Information:
+1. http://www.calwineries.com/learn/wine-chemistry is where I found detailed descriptions of the chemical components of wine to supplement the descriptions found in "variable_descriptions.txt"
