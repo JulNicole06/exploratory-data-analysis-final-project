@@ -41,9 +41,10 @@ just to help you get started.
 summary(WhiteWineData$fixed.acidity)
 
 qplot(data = WhiteWineData, x = WhiteWineData$fixed.acidity, binwidth = .1,
-      xlab = "fixed acidity (tartaric acid - g / dm^3)")+
+      xlab = "fixed acidity (tartaric acid - g / dm^3)",
+      color = I("black"),
+      fill = I("pink"))+
   scale_x_continuous(lim = c(3,15), breaks = seq(3,15,1))
-
 
 qplot(data = WhiteWineData, x = WhiteWineData$fixed.acidity, binwidth = .1) +
   scale_x_continuous(lim = c(3,15), breaks = seq(3,15,1)) +
@@ -55,7 +56,9 @@ qplot(data = WhiteWineData, x = WhiteWineData$fixed.acidity, binwidth = .1) +
 summary(WhiteWineData$volatile.acidity)
 
 qplot(data = WhiteWineData, x = WhiteWineData$volatile.acidity, binwidth = .01,
-      xlab = "volatile acidity (acetic acid - g / dm^3)")+
+      xlab = "volatile acidity (acetic acid - g / dm^3)",
+      color = I("black"),
+      fill = I("red"))+
   scale_x_continuous(lim = c(0,1.5), breaks = seq(0,1.5,.1))
 ```
 
@@ -63,7 +66,9 @@ qplot(data = WhiteWineData, x = WhiteWineData$volatile.acidity, binwidth = .01,
 summary(WhiteWineData$citric.acid)
 
 qplot(data = WhiteWineData, x = WhiteWineData$citric.acid, binwidth = .05,
-      xlab = "citric acid (g / dm^3)")+
+      xlab = "citric acid (g / dm^3)",
+      color = I("black"),
+      fill = I("orange"))+
   scale_x_continuous(lim = c(0,2), breaks = seq(0,2,.2))
 ```
 
@@ -71,7 +76,9 @@ qplot(data = WhiteWineData, x = WhiteWineData$citric.acid, binwidth = .05,
 summary(WhiteWineData$residual.sugar)
 
 qplot(data = WhiteWineData, x = WhiteWineData$residual.sugar, binwidth = 1,
-      xlab = "residual sugar (g / dm^3)")+
+      xlab = "residual sugar (g / dm^3)",
+      color = I("black"),
+      fill = I("dark grey"))+
   scale_x_continuous(lim = c(0,70), breaks = seq(0,70,5))
 ```
 
@@ -79,7 +86,9 @@ qplot(data = WhiteWineData, x = WhiteWineData$residual.sugar, binwidth = 1,
 summary(WhiteWineData$chlorides)
 
 qplot(data = WhiteWineData, x = WhiteWineData$chlorides, binwidth = .005,
-      xlab = "chlorides (sodium chloride - g / dm^3)")+
+      xlab = "chlorides (sodium chloride - g / dm^3)",
+      color = I("black"),
+      fill = I("blue"))+
   scale_x_continuous(lim = c(0,.35), breaks = seq(0,.35,.05))
 ```
 
@@ -87,7 +96,9 @@ qplot(data = WhiteWineData, x = WhiteWineData$chlorides, binwidth = .005,
 summary(WhiteWineData$free.sulfur.dioxide)
 
 qplot(data = WhiteWineData, x = WhiteWineData$free.sulfur.dioxide, binwidth = 5,
-      xlab = "free sulfur dioxide (mg / dm^3)")+
+      xlab = "free sulfur dioxide (mg / dm^3)",
+      color = I("black"),
+      fill = I("yellow"))+
   scale_x_continuous(lim = c(0,300), breaks = seq(0,300,20))
 ```
 
@@ -95,7 +106,9 @@ qplot(data = WhiteWineData, x = WhiteWineData$free.sulfur.dioxide, binwidth = 5,
 summary(WhiteWineData$total.sulfur.dioxide)
 
 qplot(data = WhiteWineData, x = WhiteWineData$total.sulfur.dioxide, binwidth = 10,
-      xlab = "total sulfur dioxide (mg / dm^3)")+
+      xlab = "total sulfur dioxide (mg / dm^3)",
+      color = I("black"),
+      fill = I("brown"))+
   scale_x_continuous(lim = c(0,450), breaks = seq(0,450,20))
 ```
 
@@ -103,7 +116,9 @@ qplot(data = WhiteWineData, x = WhiteWineData$total.sulfur.dioxide, binwidth = 1
 summary(WhiteWineData$density)
 
 qplot(data = WhiteWineData, x = WhiteWineData$density, binwidth = .001,
-      xlab = "density (g / cm^3)")+
+      xlab = "density (g / cm^3)",
+      color = I("black"),
+      fill = I("green"))+
   scale_x_continuous(lim = c(.98,1.05), breaks = seq(.98,1.05,.01))
 ```
 
@@ -111,7 +126,9 @@ qplot(data = WhiteWineData, x = WhiteWineData$density, binwidth = .001,
 summary(WhiteWineData$pH)
 
 qplot(data = WhiteWineData, x = WhiteWineData$pH, binwidth = .05,
-      xlab = "pH")+
+      xlab = "pH",
+      color = I("black"),
+      fill = I("purple"))+
   scale_x_continuous(lim = c(2.5,4), breaks = seq(2.5,4,.1))
 ```
 
@@ -119,7 +136,9 @@ qplot(data = WhiteWineData, x = WhiteWineData$pH, binwidth = .05,
 summary(WhiteWineData$sulphates)
 
 qplot(data = WhiteWineData, x = WhiteWineData$sulphates, binwidth = .01,
-      xlab = "sulphates (potassium sulphate - g / dm3)")+
+      xlab = "sulphates (potassium sulphate - g / dm3)",
+      color = I("black"),
+      fill = I("dark green"))+
   scale_x_continuous(lim = c(0,1.1), breaks = seq(0,1.1,.1))
 ```
 
@@ -127,14 +146,18 @@ qplot(data = WhiteWineData, x = WhiteWineData$sulphates, binwidth = .01,
 summary(WhiteWineData$alcohol)
 
 qplot(data = WhiteWineData, x = WhiteWineData$alcohol, binwidth = 1,
-      xlab = "alcohol (% by volume)")+
+      xlab = "alcohol (% by volume)",
+      color = I("black"),
+      fill = I("light blue"))+
   scale_x_continuous(lim = c(5,15), breaks = seq(5,15,1))
 ```
 
 ```{r echo=FALSE, Univariate_Plots}
 summary(WhiteWineData$quality)
 
-qplot(data = WhiteWineData, x = WhiteWineData$quality, xlab = "quality (score between 0 and 10)")
+qplot(data = WhiteWineData, x = WhiteWineData$quality, xlab = "quality (score between 0 and 10)",
+      color = I("black"),
+      fill = I("light grey"))
 
 ```
 
