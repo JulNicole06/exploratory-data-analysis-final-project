@@ -1,7 +1,7 @@
 ---
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 White Wine Quality Analysis by Julia Fuhrman
 ========================================================
@@ -43,12 +43,12 @@ There should be multiple code chunks and text sections; the first one below is
 just to help you get started.
 
 ```{r echo=FALSE, Univariate_Plots}
-summary(WhiteWineData)
+WhiteWineData$quality <- factor(WhiteWineData$quality, levels = c(0:10), order = TRUE)
 ```
 
-## Fixed Acidity (tartaric acid)
+### Fixed Acidity (tartaric acid)
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE}
 hist1 <- qplot(data = WhiteWineData, x = WhiteWineData$fixed.acidity, binwidth = .1,
       xlab = "g / dm^3",
       color = I("black"),
@@ -58,14 +58,14 @@ hist1 <- qplot(data = WhiteWineData, x = WhiteWineData$fixed.acidity, binwidth =
 box1 <- qplot(x = quality, y = fixed.acidity, data = WhiteWineData, geom = 'boxplot',
               xlab = "rating",
               ylab = "g / dm^3")+
-  coord_cartesian(ylim=c(5,10))
+  coord_cartesian(ylim=c(5,9))
 
 grid.arrange(hist1, box1)
 ```
 
-## Volatile Acidity (acetic acid)
+### Volatile Acidity (acetic acid)
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE}
 hist2 <- qplot(data = WhiteWineData, x = WhiteWineData$volatile.acidity, binwidth = .01,
       xlab = "g / dm^3",
       color = I("black"),
@@ -80,9 +80,9 @@ box2 <- qplot(x = quality, y = volatile.acidity, data = WhiteWineData, geom = 'b
 grid.arrange(hist2, box2)
 ```
 
-## Citric Acid
+### Citric Acid
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE}
 hist3 <- qplot(data = WhiteWineData, x = WhiteWineData$citric.acid, binwidth = .05,
       xlab = "g / dm^3",
       color = I("black"),
@@ -97,9 +97,9 @@ box3 <- qplot(x = quality, y = citric.acid, data = WhiteWineData, geom = 'boxplo
 grid.arrange(hist3, box3)
 ```
 
-## Residual Sugar
+### Residual Sugar
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE}
 p1 <- qplot(data = WhiteWineData, x = WhiteWineData$residual.sugar,
       xlab = "g / dm^3",
       color = I("black"),
@@ -115,9 +115,9 @@ p3 <- qplot(x = quality, y = residual.sugar, data = WhiteWineData, geom = 'boxpl
 grid.arrange(p1, p2, p3)
 ```
 
-## Chlorides (sodium chloride)
+### Chlorides (sodium chloride)
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE}
 hist4 <- qplot(data = WhiteWineData, x = WhiteWineData$chlorides, binwidth = .005,
       xlab = "g / dm^3",
       color = I("black"),
@@ -132,9 +132,9 @@ box4 <- qplot(x = quality, y = chlorides, data = WhiteWineData, geom = 'boxplot'
 grid.arrange(hist4, box4)
 ```
 
-## Free Sulfur Dioxide
+### Free Sulfur Dioxide
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE}
 hist5 <- qplot(data = WhiteWineData, x = WhiteWineData$free.sulfur.dioxide, binwidth = 5,
       xlab = "mg / dm^3",
       color = I("black"),
@@ -149,9 +149,9 @@ box5 <- qplot(x = quality, y = free.sulfur.dioxide, data = WhiteWineData, geom =
 grid.arrange(hist5, box5)
 ```
 
-## Total Sulfur Dioxide
+### Total Sulfur Dioxide
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE}
 hist6 <- qplot(data = WhiteWineData, x = WhiteWineData$total.sulfur.dioxide, binwidth = 10,
       xlab = "mg / dm^3",
       color = I("black"),
@@ -166,9 +166,9 @@ box6 <- qplot(x = quality, y = total.sulfur.dioxide, data = WhiteWineData, geom 
 grid.arrange(hist6, box6)
 ```
 
-## Density
+### Density
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE}
 hist7 <- qplot(data = WhiteWineData, x = WhiteWineData$density, binwidth = .001,
       xlab = "g / cm^3",
       color = I("black"),
@@ -183,9 +183,9 @@ box7 <- qplot(x = quality, y = density, data = WhiteWineData, geom = 'boxplot',
 grid.arrange(hist7, box7)
 ```
 
-## pH
+### pH
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE}
 hist8 <- qplot(data = WhiteWineData, x = WhiteWineData$pH, binwidth = .05,
       xlab = "pH",
       color = I("black"),
@@ -200,9 +200,9 @@ box8 <- qplot(x = quality, y = pH, data = WhiteWineData, geom = 'boxplot',
 grid.arrange(hist8, box8)
 ```
 
-## Sulphates (postassium sulphate)
+### Sulphates (postassium sulphate)
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE}
 hist9 <- qplot(data = WhiteWineData, x = WhiteWineData$sulphates, binwidth = .01,
       xlab = "g / dm^3",
       color = I("black"),
@@ -217,9 +217,9 @@ box9 <- qplot(x = quality, y = sulphates, data = WhiteWineData, geom = 'boxplot'
 grid.arrange(hist9, box9)
 ```
 
-## Alcohol
+### Alcohol
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE}
 hist10 <- qplot(data = WhiteWineData, x = WhiteWineData$alcohol, binwidth = .5,
       xlab = "% by volume",
       color = I("black"),
@@ -234,22 +234,15 @@ box10 <- qplot(x = quality, y = alcohol, data = WhiteWineData, geom = 'boxplot',
 grid.arrange(hist10, box10)
 ```
 
-## Quality
+### Quality
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE}
 qplot(data = WhiteWineData, x = WhiteWineData$quality, 
       xlab = "rating",
       color = I("black"),
       fill = I("light grey"))
 
 ```
-
-
-> **Tip**: Make sure that you leave a blank line between the start / end of
-each code block and the end / start of your Markdown text so that it is
-formatted nicely in the knitted text. Note as well that text on consecutive
-lines is treated as a single space. Make sure you have a blank line between
-your paragraphs so that they too are formatted for easy readability.
 
 # Univariate Analysis
 
