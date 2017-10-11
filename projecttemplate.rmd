@@ -27,8 +27,7 @@ library(gridExtra)
 
 ```{r echo=FALSE, Load_the_Data}
 # Load the Data
-setwd('/Users/julia/Documents/UdacityProjects/Data Analyst Nanodegree/\
-      Exploratory Data Analysis/final-project')
+setwd('/Users/julia/Documents/UdacityProjects/Data Analyst Nanodegree/Exploratory Data Analysis/final-project')
 WhiteWineData <- read.csv('wineQualityWhites.csv')
 theme_set(theme_minimal(12)) 
 ```
@@ -527,14 +526,45 @@ category.
 
 # Bivariate Plots Section
 
-> **Tip**: Based on what you saw in the univariate plots, what relationships
-between variables might be interesting to look at in this section? Don't limit
-yourself to relationships between a main output feature and one of the
-supporting variables. Try to look at relationships between supporting variables
-as well.
+To analyze pairs of variables, I decided to create a scatterplot matrix to see 
+which combinations of variables had the most meaningful correlation coefficients
+
+1. Density and Residual Sugar = 0.839
+
+2. Density and Alcohol = -0.78
+
+3. Free Sulfur Dioxide and Total Sulfur Dioxide = 0.401
+
+4. Density and Total Sulfur Dioxide = 0.53
+
+Since Free Sulfur Dioxide is a part of the Total Sulfur Dioxide, I decided to 
+ignore this correlation since it's obvious that as free sulfur dioxide 
+increases, the total sulfur dioxide would also increase.
 
 ```{r echo=FALSE, Bivariate_Plots}
+library("GGally")
+theme_set(theme_minimal(8))
+data_subset <- subset(WhiteWineData, select = -c(X, quality, quality.bins))
+ggpairs(data_subset)
+```
 
+
+```{r echo=FALSE, }
+ggplot(aes(x=density, y=residual.sugar), data = WhiteWineData) +
+  geom_point() +
+  geom_smooth(method = 'lm', color = 'red')
+```
+
+```{r echo=FALSE, }
+ggplot(aes(x=density, y=alcohol), data = WhiteWineData) +
+  geom_point() +
+  geom_smooth(method = 'lm', color = 'red')
+```
+
+```{r echo=FALSE, }
+ggplot(aes(x=density, y=total.sulfur.dioxide), data = WhiteWineData) +
+  geom_point() +
+  geom_smooth(method = 'lm', color = 'red')
 ```
 
 # Bivariate Analysis
