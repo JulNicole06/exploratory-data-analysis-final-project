@@ -37,7 +37,7 @@ samples, as well as a rating of the quality of the wine on a 0-10 scale.
 
 # Univariate Plots Section
 
-```{r echo=FALSE, , Output_Variables}
+```{r echo=FALSE, Output_Variables}
 # Create new variable
 WhiteWineData$quality.bins <- cut(WhiteWineData$quality, 
                                   breaks = c(0, 4, 6, 10), 
