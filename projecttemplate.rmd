@@ -23,6 +23,7 @@ output:
 library(ggplot2)
 library(ggthemes)
 library(gridExtra)
+library(GGally)
 ```
 
 ```{r echo=FALSE, Load_the_Data}
@@ -543,7 +544,6 @@ increases, the total sulfur dioxide would also increase.
 
 ```{r echo=FALSE, Bivariate_Plots}
 library("GGally")
-theme_set(theme_minimal(8))
 data_subset <- subset(WhiteWineData, select = -c(X, quality, quality.bins))
 ggpairs(data_subset)
 ```
@@ -584,15 +584,11 @@ the dataset?
 
 # Multivariate Plots Section
 
-> **Tip**: Now it's time to put everything together. Based on what you found in
-the bivariate plots section, create a few multivariate plots to investigate
-more complex interactions between variables. Make sure that the plots that you
-create here are justified by the plots you explored in the previous section. If
-you plan on creating any mathematical models, this is the section where you
-will do that.
-
 ```{r echo=FALSE, Multivariate_Plots}
+scatter_matrix  <- ggpairs(WhiteWineData, columns = c('density', 'residual.sugar', 'alcohol', 'free.sulfur.dioxide', 'total.sulfur.dioxide'), mapping = aes(color = quality.bins))
 
+scatter_matrix
+```
 ```
 
 # Multivariate Analysis
