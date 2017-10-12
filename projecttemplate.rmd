@@ -296,43 +296,6 @@ qplot(data = WhiteWineData,
                      breaks = seq(5,15,1))
 ```
 
-### 12. Quality
-
-The quality of the wine was measured as the average quality of each wine, which 
-was rated from 0-10 (0 = very bad, 10 = very excellent) by at least 3 experts 
-based on sensory data.  This distribution would ideally have the same amount of
-observations for each categorical rating, however there are no observations of
-wines with ratings below 2 or any with a perfect 10 rating.  92.6% of the wines 
-in this dataset were rated between 5-7.  This is a significant disadvantage for 
-being able to draw conclusions on the differences between each level of quality
-since each level has such a drastic difference in sample sizes.  To help 
-analysis, I decided to create a new variable called "quality.bins" where I 
-seperated the quality variable into 3 groups: "bad" (ratings from 0-4), 
-"average" (ratings from 5-6) and "good" (ratings from 7-10). 
-
-```{r echo=FALSE, Quality_Summary}
-summary(WhiteWineData$quality)
-
-summary(WhiteWineData$quality.bins)
-```
-
-
-```{r echo=FALSE, Quality}
-quality1 <- qplot(data = WhiteWineData, 
-                  x = WhiteWineData$quality, 
-                  xlab = "rating",
-                  color = I("black"),
-                  fill = I("light grey"))
-
-quality2 <- qplot(data = WhiteWineData, 
-                  x = WhiteWineData$quality.bins, 
-                  xlab = "rating",
-                  color = I("black"),
-                  fill = I("light grey"))
-
-grid.arrange(quality1, quality2)
-```
-
 # Univariate Analysis
 
 ### What is the structure of your dataset?
@@ -362,25 +325,10 @@ Acidity and pH might also contribute slightly to the quality ratings.
 
 ### Did you create any new variables from existing variables in the dataset?
 
-Yes, I decided to create a new variable called "quality.bins", explained in the
-plots above. Using this grouping allowed me to see bigger differences between 
-good and bad wine in the box plots of each variable across quality levels.  
-For example, in the boxplots below for volatile acidity, when looking at all 
-levels, a clear difference between patterns does not jump out at me, however 
-when grouped into 3 categories, it's clear that bad wines have higher levels of 
-acetic acid on average, compared to average and good wines.
+Yes, I decided to create a new variable called "quality.buckets" to 
+visualize the correlations found using Spearman's method in the bivariate
+analysis below.
 
-```{r echo=FALSE, Category_Example}
-example1 <- qplot(x = quality, 
-                  y = volatile.acidity, 
-                  data = WhiteWineData, 
-                  geom = 'boxplot',
-                  xlab = "rating",
-                  ylab = "g / dm^3") +
-  coord_cartesian(ylim=c(.15,.5))
-
-grid.arrange(example1, volatile.acidity2)
-```
 
 ### Of the features you investigated, were there any unusual distributions? \
 Did you perform any operations on the data to tidy, adjust, or change the form \
@@ -388,39 +336,38 @@ of the data? If so, why did you do this?
 
 The residual sugar distribution was positively skewed by outliers, so 
 tranforming the x-axis to a log10 scale uncovered a bimodal distribution among 
-the majority of the data.  As well, I transformed the quality variable to an 
-ordered factor so that box plots would show each individual rating as its own
-category.  
+the majority of the data. 
 
 # Bivariate Plots Section
 
-```{r echo=FALSE, Output_Variables}
-# Create new variable
-WhiteWineData$quality.bins <- cut(WhiteWineData$quality, 
-                                  breaks = c(0, 4, 6, 10), 
-                                  labels = c('bad','average','good')) 
-summary(WhiteWineData$quality.bins)
+### Comparing Quality 
+Since "quality" is ordinal, I used Spearmans correlation to compare each 
+variable to the quality ratings.  The highest correlations were:
 
-# Convert quality ratings to factored levels
-WhiteWineData$quality <- factor(WhiteWineData$quality, 
-                                levels = c(0:10), 
-                                order = TRUE)
+alcohol by quality : 0.4403692
+density by quality : -0.348351 
+chlorides by quality : -0.3144885 
+
+Good wines tend to have a higher alcohol content, lower density and lower
+clorides compared to bad and average wines.
+
+```{r echo=FALSE}
+with(WhiteWineData, cor.test(quality, chlorides, method='spearman'))
+
+with(WhiteWineData, cor.test(quality, density, method='spearman'))
+
+with(WhiteWineData, cor.test(quality, alcohol, method='spearman'))
 ```
 
-### Comparing Quality 
-volatile acidity =   As the boxplot below confirms this, bad wines have a 
-median acetic acid level slightly above .3, while average to good wines have 
-less.  
-
-chlorides =  Looking at the boxplots of Chloride distribtion across each
-quality rating, it looks like good wines have a lower level of sodium chloride
-on average compared to bad and average wines.  
-
-free sulfur dioxide = The boxplot shows that bad wines have a lower free 
-sulfur dioxide level compared to average and good wines.  
-
 ```{r echo=FALSE, Box_Plots}
-alcohol_by_quality <- ggplot(aes(x = quality, 
+
+# Create new quality buckets
+WhiteWineData$quality.buckets <- cut(WhiteWineData$quality, 
+                                  breaks = c(0, 4, 6, 10), 
+                                  labels = c('bad','average','good'))
+
+# Create boxplots with mean markers
+alcohol_by_quality <- ggplot(aes(x = quality.buckets, 
                                  y = alcohol),
                              data = WhiteWineData) + 
   geom_boxplot() +
@@ -429,7 +376,7 @@ alcohol_by_quality <- ggplot(aes(x = quality,
                shape = 4) +
   coord_cartesian(ylim=c(9,13))
 
-density_by_quality <-ggplot(aes(x = quality, 
+density_by_quality <-ggplot(aes(x = quality.buckets, 
                                 y = density),
                             data = WhiteWineData) + 
   geom_boxplot() +
@@ -438,7 +385,7 @@ density_by_quality <-ggplot(aes(x = quality,
                shape = 4) +
   coord_cartesian(ylim=c(.9875,.9975))
   
-chlorides_by_quality <-ggplot(aes(x = quality, 
+chlorides_by_quality <-ggplot(aes(x = quality.buckets, 
                                   y = chlorides),
                               data = WhiteWineData) + 
   geom_boxplot() +
@@ -449,43 +396,14 @@ chlorides_by_quality <-ggplot(aes(x = quality,
   
 grid.arrange(alcohol_by_quality, density_by_quality, chlorides_by_quality)
 ```
-### Comparing Quality Ratings to Each Component
 
-Since "quality" is ordinal, I used Spearmans correlation to compare each variable to the quality ratings.  The highest correlations were:
-chlorides: -0.3144885 
-density: -0.348351 
-alcohol: 0.4403692
-
-```{r echo=FALSE}
-with(WhiteWineData, cor.test(quality, fixed.acidity, method='spearman'))
-
-with(WhiteWineData, cor.test(quality, volatile.acidity, method='spearman'))
-
-with(WhiteWineData, cor.test(quality, citric.acid, method='spearman'))
-
-with(WhiteWineData, cor.test(quality, residual.sugar, method='spearman'))
-
-with(WhiteWineData, cor.test(quality, chlorides, method='spearman'))
-
-with(WhiteWineData, cor.test(quality, free.sulfur.dioxide, method='spearman'))
-
-with(WhiteWineData, cor.test(quality, total.sulfur.dioxide, method='spearman'))
-
-with(WhiteWineData, cor.test(quality, density, method='spearman'))
-
-with(WhiteWineData, cor.test(quality, pH, method='spearman'))
-
-with(WhiteWineData, cor.test(quality, sulphates, method='spearman'))
-
-with(WhiteWineData, cor.test(quality, alcohol, method='spearman'))
-```
 
 To analyze pairs of variables, I decided to create a scatterplot matrix to see 
 which combinations of variables had the most meaningful correlation
 coefficients.  
 
 ```{r echo=FALSE, Bivariate_Plots}
-bivariate_scatter_matrix <- ggpairs(subset(WhiteWineData, select = -c(X)))
+bivariate_scatter_matrix <- ggpairs(subset(WhiteWineData, select = -c(X, quality)))
 
 bivariate_scatter_matrix
 ```
