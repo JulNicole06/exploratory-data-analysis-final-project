@@ -38,51 +38,28 @@ samples, as well as a rating of the quality of the wine on a 0-10 scale.
 
 # Univariate Plots Section
 
-```{r echo=FALSE, Output_Variables}
-# Create new variable
-WhiteWineData$quality.bins <- cut(WhiteWineData$quality, 
-                                  breaks = c(0, 4, 6, 10), 
-                                  labels = c('bad','average','good')) 
-summary(WhiteWineData$quality.bins)
-
-# Convert quality ratings to factored levels
-WhiteWineData$quality <- factor(WhiteWineData$quality, 
-                                levels = c(0:10), 
-                                order = TRUE)
-```
-
 ### 1. Fixed Acidity (tartaric acid)
 
 "Fixed Acidity" was measured by the amount of tartaric acid in the wine in grams
 per cubic decimeter.  This acid decreases as grapes mature on the vine, so the 
 riper the wine, the lower the amount of tartaric acid.  This acid contributes to
 the "tartness" of the wine.  The distribution of this variable in the dataset is
-normal, with a mean of 6.855 g/dm^3 and a median of 6.8 g/dm^3.  The boxplot 
-shows a slightly lower levels of tartaric acid as quality increases.
+normal, with a mean of 6.855 g/dm^3 and a median of 6.8 g/dm^3.
 
 ```{r echo=FALSE, Fixed_Acidity_Summary}
 summary(WhiteWineData$fixed.acidity)
 ```
 
-```{r echo=FALSE, Fixed_Acidity_Plots}
-fixed.acidity1 <- qplot(data = WhiteWineData,
-                        x = WhiteWineData$fixed.acidity, 
-                        binwidth = .1,
-                        xlab = "g / dm^3",
-                        color = I("black"),
-                        fill = I("pink")) +
+```{r echo=FALSE, Fixed_Acidity}
+qplot(data = WhiteWineData,
+      x = WhiteWineData$fixed.acidity, 
+      binwidth = .1,
+      xlab = "g / dm^3",
+      color = I("black"),
+      fill = I("pink")) +
   scale_x_continuous(lim = c(3,15), 
                      breaks = seq(3,15,1))
 
-fixed.acidity2 <- qplot(x = quality.bins, 
-                        y = fixed.acidity, 
-                        data = WhiteWineData, 
-                        geom = 'boxplot',
-                        xlab = "rating",
-                        ylab = "g / dm^3") +
-  coord_cartesian(ylim=c(6,8))
-
-grid.arrange(fixed.acidity1, fixed.acidity2)
 ```
 
 ### 2. Volatile Acidity (acetic acid)
@@ -91,9 +68,7 @@ grid.arrange(fixed.acidity1, fixed.acidity2)
 grams per cubic decimeter.  The normal amount found in wine is around 
 0.3 g/dm^3.  This acid contributes to the smell and taste of the wine.  As the 
 amount of acetic acid increases above 0.3 g/dm^3, the wine develops a sour, 
-vinegar taste to it.  As the boxplot below confirms this, bad wines have a 
-median acetic acid level slightly above .3, while average to good wines have 
-less.  The overall distribution of this variable is slightly positively skewed.
+vinegar taste to it.  The overall distribution of this variable is slightly positively skewed.
 The range within the 1st quartile was 0.13 g/dm^3, while the range within the 
 4th quartile was 0.78 g/dm^3 with 50% of the data falling between 0.27 g/dm^3 
 and 0.39 g/dm^3
@@ -102,25 +77,15 @@ and 0.39 g/dm^3
 summary(WhiteWineData$volatile.acidity)
 ```
 
-```{r echo=FALSE, Volatile_Acidity_Plots}
-volatile.acidity1 <- qplot(data = WhiteWineData, 
-                           x = WhiteWineData$volatile.acidity, 
-                           binwidth = .01,
-                           xlab = "g / dm^3",
-                           color = I("black"),
-                           fill = I("red")) +
+```{r echo=FALSE, Volatile_Acidity}
+qplot(data = WhiteWineData, 
+      x = WhiteWineData$volatile.acidity, 
+          binwidth = .01,
+          xlab = "g / dm^3",
+          color = I("black"),
+          fill = I("red")) +
   scale_x_continuous(lim = c(0,1.5), 
                      breaks = seq(0,1.5,.1))
-
-volatile.acidity2 <- qplot(x = quality.bins, 
-                           y = volatile.acidity,
-                           data = WhiteWineData, 
-                           geom = 'boxplot',
-                           xlab = "rating",
-                           ylab = "g / dm^3") +
-  coord_cartesian(ylim=c(.15,.5))
-
-grid.arrange(volatile.acidity1, volatile.acidity2)
 ```
 
 ### 3. Citric Acid
@@ -129,31 +94,20 @@ The amount of citric acid in the wine was measured in grams per cubic decimeter.
 This acid is used in small quantities to lower the pH (make it slightly more
 acidic) as well as add 'freshness' and flavor.  The distribution of this 
 variable in the dataset is slightly positively skewed, with a mean of 
-0.3342 g/dm^3 and a median of 0.3200 g/dm^3.  The boxplot shows that there is
-not a large difference between the median citric acid level of all 3 categories.
+0.3342 g/dm^3 and a median of 0.3200 g/dm^3.
 
 ```{r echo=FALSE, Citric_Acid_Summary}
 summary(WhiteWineData$citric.acid)
 ```
 
-```{r echo=FALSE, Citric_Acid_Plots}
-citric.acid1 <- qplot(data = WhiteWineData, 
-                      x = WhiteWineData$citric.acid, 
-                      binwidth = .05,
-                      xlab = "g / dm^3",
-                      color = I("black"),
-                      fill = I("orange")) +
+```{r echo=FALSE, Citric_Acid}
+qplot(data = WhiteWineData, 
+      x = WhiteWineData$citric.acid, 
+      binwidth = .05,
+      xlab = "g / dm^3",
+      color = I("black"),
+      fill = I("orange")) +
   scale_x_continuous(lim = c(0,2), breaks = seq(0,2,.2))
-
-citric.acid2 <- qplot(x = quality.bins, 
-                      y = citric.acid, 
-                      data = WhiteWineData, 
-                      geom = 'boxplot',
-                      xlab = "rating",
-                      ylab = "g / gm^3") +
-  coord_cartesian(ylim=c(.15,.45))
-
-grid.arrange(citric.acid1, citric.acid2)
 ```
 
 ### 4. Residual Sugar
@@ -164,14 +118,13 @@ less than 1 g/dm^3 and wines with greater than 45 g/dm^3 are considered sweet.
 The outliers in this dataset cause the distribution to be non-normal with the 
 range within the 4th quartile of 55.9 g/dm^3 and 75% of the data falling below 
 9.9 g/dm^3.  After transforming this data to a log10 scale, it appears the data 
-is bimodal.  The boxplots show that the middle 50% of both good and bad wines 
-are within similar ranges.
+is bimodal. 
 
 ```{r echo=FALSE, Residual_Sugar_Summary}
 summary(WhiteWineData$residual.sugar)
 ```
 
-```{r echo=FALSE, Residual_Sugar_Plots}
+```{r echo=FALSE, Residual_Sugar}
 residual.sugar1 <- qplot(data = WhiteWineData, 
                          x = WhiteWineData$residual.sugar,
                          binwidth = .1,
@@ -181,15 +134,7 @@ residual.sugar1 <- qplot(data = WhiteWineData,
 
 residual.sugar2 <- residual.sugar1 + scale_x_log10()
 
-residual.sugar3 <- qplot(x = quality.bins, 
-                         y = residual.sugar, 
-                         data = WhiteWineData, 
-                         geom = 'boxplot',
-                         xlab = "rating",
-                         ylab = "g / dm^3") + 
-  coord_cartesian(ylim=c(0,12.5))
-
-grid.arrange(residual.sugar1, residual.sugar2, residual.sugar3)
+grid.arrange(residual.sugar1, residual.sugar2)
 ```
 
 ### 5. Chlorides (sodium chloride)
@@ -197,32 +142,20 @@ grid.arrange(residual.sugar1, residual.sugar2, residual.sugar3)
 "Chlorides" were the measure of the amount of sodium chloride (salt) in the wine
 in g/dm^3.  This dataset has a positively skewed distribution with 75% of the
 data falling below 0.05 g/dm^3 and 25% of the data falling between 0.05 g/dm^3 
-and 0.346 g/dm^3.  Looking at the boxplots of Chloride distribtion across each
-quality rating, it looks like good wines have a lower level of sodium chloride
-on average compared to bad and average wines.  
+and 0.346 g/dm^3. 
 
 ```{r echo=FALSE, Chlorides_Summary}
 summary(WhiteWineData$chlorides)
 ```
 
-```{r echo=FALSE, Chlorides_Plots}
-chlorides1 <- qplot(data = WhiteWineData, 
-                    x = WhiteWineData$chlorides, 
-                    binwidth = .005,
-                    xlab = "g / dm^3",
-                    color = I("black"),
-                    fill = I("blue")) +
+```{r echo=FALSE, Chlorides}
+qplot(data = WhiteWineData, 
+      x = WhiteWineData$chlorides, 
+      binwidth = .005,
+      xlab = "g / dm^3",
+      color = I("black"),
+      fill = I("blue")) +
   scale_x_continuous(lim = c(0,.35), breaks = seq(0,.35,.05))
-
-chlorides2 <- qplot(x = quality.bins, 
-                    y = chlorides, 
-                    data = WhiteWineData, 
-                    geom = 'boxplot',
-                    xlab = "rating",
-                    ylab = "g / dm^3") +
-  coord_cartesian(ylim=c(0.025,.06))
-
-grid.arrange(chlorides1, chlorides2)
 ```
 
 ### 6. Free Sulfur Dioxide
@@ -232,31 +165,21 @@ equilibrium between molecular SO2 (as a dissolved gas) and bisulfite ion.  It
 prevents microbial growth and the oxidation of wine.  This variable in the 
 dataset is positively skewed because of larger numbers within a range of 
 243 mg/dm^3 in the 4th quartile of this dataset.  The median is 34 mg/dm^3 and 
-the mean is 35.31 mg/dm^3.  The boxplot shows that bad wines have a lower free 
-sulfur dioxide level compared to average and good wines.  
+the mean is 35.31 mg/dm^3.  
 
 ```{r echo=FALSE, Free_Sulfur_Dioxide_Summary}
 summary(WhiteWineData$free.sulfur.dioxide)
 ```
 
-```{r echo=FALSE, Free_Sulfur_Dioxide_Plots}
-free.sulfur.dioxide1 <- qplot(data = WhiteWineData, 
-                              x = WhiteWineData$free.sulfur.dioxide, 
-                              binwidth = 5,
-                              xlab = "mg / dm^3",
-                              color = I("black"),
-                              fill = I("yellow")) +
+```{r echo=FALSE, Free_Sulfur_Dioxide}
+qplot(data = WhiteWineData, 
+      x = WhiteWineData$free.sulfur.dioxide, 
+      binwidth = 5,
+      xlab = "mg / dm^3",
+      color = I("black"),
+      fill = I("yellow")) +
   scale_x_continuous(lim = c(0,300), breaks = seq(0,300,20))
 
-free.sulfur.dioxide2 <- qplot(x = quality.bins, 
-                              y = free.sulfur.dioxide, 
-                              data = WhiteWineData, 
-                              geom = 'boxplot',
-                              xlab = "rating",
-                              ylab = "mg / dm^3") +
-  coord_cartesian(ylim=c(0,60))
-
-grid.arrange(free.sulfur.dioxide1, free.sulfur.dioxide2)
 ```
 
 ### 7. Total Sulfur Dioxide
@@ -266,32 +189,20 @@ concentrations, SO2 is mostly undetectable in wine, but at free SO2
 concentrations over 50 ppm, SO2 becomes evident in the smell and taste of wine.
 Outliers skew this distribution in the positive direction with a median of 
 134 mg/dm^3 and a mean of 138.4 mg/dm^3.  50% of the data falls between 
-108 mg/dm^3 and 167 mg/dm^3. The boxplots show similar median values for good 
-and bad wines, however the middle 50% of data for bad wines fall across a larger
-range of total sulfur dioxide levels with fewer samples compared to good wines.
+108 mg/dm^3 and 167 mg/dm^3.
 
 ```{r echo=FALSE, Total_Sulfur_Dioxide_Summary}
 summary(WhiteWineData$total.sulfur.dioxide)
 ```
 
-```{r echo=FALSE, Total_Sulfur_Dioxide_Plots}
-total.sulfur.dioxide1 <- qplot(data = WhiteWineData, 
-                               x = WhiteWineData$total.sulfur.dioxide, 
-                               binwidth = 10,
-                               xlab = "mg / dm^3",
-                               color = I("black"),
-                               fill = I("brown")) +
+```{r echo=FALSE, Total_Sulfur_Dioxide}
+qplot(data = WhiteWineData,
+      x = WhiteWineData$total.sulfur.dioxide, 
+      binwidth = 10,
+      xlab = "mg / dm^3",
+      color = I("black"),
+      fill = I("brown")) +
   scale_x_continuous(lim = c(0,450), breaks = seq(0,450,20))
-
-total.sulfur.dioxide2 <- qplot(x = quality.bins, 
-                               y = total.sulfur.dioxide, 
-                               data = WhiteWineData, 
-                               geom = 'boxplot',
-                               xlab = "rating",
-                               ylab = "mg / dm^3") +
-  coord_cartesian(ylim=c(75,200))
-
-grid.arrange(total.sulfur.dioxide1, total.sulfur.dioxide2)
 ```
 
 ### 8. Density
@@ -300,32 +211,21 @@ grid.arrange(total.sulfur.dioxide1, total.sulfur.dioxide2)
 per cubic centimeter.  50% of the data falls beween 0.9917 g/cm^3 and 0.9961 
 g/cm^3.  The median is 0.9937 and the mean is 0.9940.  This distribution in 
 slightly positively skewed because of outliers falling between 0.9961 g/cm^3 and
-1.039 g/cm^3.  The box plot distributions across categorical ratings show that 
-good wines have a lower density compared to bad and average wines.
+1.039 g/cm^3.
 
 ```{r echo=FALSE, Density_Summary}
 summary(WhiteWineData$density)
 ```
 
-```{r echo=FALSE, Density_Plots}
-density1 <- qplot(data = WhiteWineData, 
-                  x = WhiteWineData$density, 
-                  binwidth = .001,
-                  xlab = "g / cm^3",
-                  color = I("black"),
-                  fill = I("green")) +
+```{r echo=FALSE, Density}
+qplot(data = WhiteWineData, 
+      x = WhiteWineData$density,
+      binwidth = .001,
+      xlab = "g / cm^3",
+      color = I("black"),
+      fill = I("green")) +
   scale_x_continuous(lim = c(.98,1.05), 
                      breaks = seq(.98,1.05,.01))
-
-density2 <- qplot(x = quality.bins, 
-                  y = density, 
-                  data = WhiteWineData, 
-                  geom = 'boxplot',
-                  xlab = "rating",
-                  ylab = "g / cm^3") +
-  coord_cartesian(ylim=c(.99,.9975))
-
-grid.arrange(density1, density2)
 ```
 
 ### 9. pH
@@ -333,32 +233,20 @@ grid.arrange(density1, density2)
 "pH" describes how acidic or basic a wine is on a scale from 0 (very acidic) to 
 14 (very basic); most wines are between 3-4 on the pH scale.  This variable is 
 normally distributed in this dataset with a mean of 3.188 and a median of 3.180.
-The boxplot shows that good wines have a slightly higher pH median level than
-bad or average wines.
 
 ```{r echo=FALSE, pH_Summary}
 summary(WhiteWineData$pH)
 ```
 
-```{r echo=FALSE, pH_Plots}
-pH1 <- qplot(data = WhiteWineData, 
-             x = WhiteWineData$pH, 
-             binwidth = .05,
-             xlab = "pH",
-             color = I("black"),
-             fill = I("purple"))+
+```{r echo=FALSE, pH}
+qplot(data = WhiteWineData, 
+      x = WhiteWineData$pH, 
+      binwidth = .05,
+      xlab = "pH",
+      color = I("black"),
+      fill = I("purple"))+
   scale_x_continuous(lim = c(2.5,4), 
                      breaks = seq(2.5,4,.1))
-
-pH2 <- qplot(x = quality.bins, 
-             y = pH, 
-             data = WhiteWineData, 
-             geom = 'boxplot',
-             xlab = "rating",
-             ylab = "pH") +
-  coord_cartesian(ylim=c(3,3.35))
-
-grid.arrange(pH1, pH2)
 ```
 
 ### 10. Sulphates (postassium sulphate)
@@ -367,33 +255,22 @@ grid.arrange(pH1, pH2)
 Potassium sulphate is a wine additive which can contribute to sulfur dioxide gas
 (S02) levels, which acts as an antimicrobial and antioxidant.  This variable is 
 slightly positively skewed, with a median of 0.47 g/dm^3 and a mean of 0.4898 
-g/dm^3.  50% of the data falls between 0.41 g/dm^3 and 0.55 g/dm^3. Good wines 
-have a slightly higher postassium sulphate level compared to good and average 
-wines.
+g/dm^3.  50% of the data falls between 0.41 g/dm^3 and 0.55 g/dm^3.
 
 ```{r echo=FALSE, Sulphates_Summary}
 summary(WhiteWineData$sulphates)
 ```
 
-```{r echo=FALSE, Sulphates_Plots}
-sulphates1 <- qplot(data = WhiteWineData,
-                    x = WhiteWineData$sulphates, 
-                    binwidth = .05,
-                    xlab = "g / dm^3",
-                    color = I("black"),
-                    fill = I("dark green"))+
+```{r echo=FALSE, Sulphates}
+qplot(data = WhiteWineData,
+      x = WhiteWineData$sulphates, 
+      binwidth = .05,
+      xlab = "g / dm^3",
+      color = I("black"),
+      fill = I("dark green"))+
   scale_x_continuous(lim = c(0,1.1),
                      breaks = seq(0,1.1,.1))
 
-sulphates2 <- qplot(x = quality.bins, 
-                    y = sulphates,
-                    data = WhiteWineData,
-                    geom = 'boxplot',
-                    xlab = "rating",
-                    ylab = "g / dm^3")+
-  coord_cartesian(ylim=c(.35,.6))
-
-grid.arrange(sulphates1, sulphates2)
 ```
 
 ### 11. Alcohol
@@ -401,32 +278,21 @@ grid.arrange(sulphates1, sulphates2)
 "Alcohol" is a measurement of the percentage of alcohol content by volume found 
 in the wine.  This variable is positively skewed with 75% of the data falling 
 between 8% and 11.4%, while the remaining 25% of data fell between 11.4% and 
-14.2%.  The boxplots of alcohol content across each categorical rating shows 
-that good wines have a higher alcohol content compared to bad and average wines.
+14.2%.
 
 ```{r echo=FALSE, Alcohol_Summary}
 summary(WhiteWineData$alcohol)
 ```
 
-```{r echo=FALSE, Alcohol_Plots}
-alcohol1 <- qplot(data = WhiteWineData, 
-                  x = WhiteWineData$alcohol, 
-                  binwidth = .5,
-                  xlab = "% by volume",
-                  color = I("black"),
-                  fill = I("light blue"))+
+```{r echo=FALSE, Alcohol}
+qplot(data = WhiteWineData, 
+      x = WhiteWineData$alcohol, 
+      binwidth = .5,
+      xlab = "% by volume",
+      color = I("black"),
+      fill = I("light blue"))+
   scale_x_continuous(lim = c(5,15), 
                      breaks = seq(5,15,1))
-
-alcohol2 <- qplot(x = quality.bins, 
-                  y = alcohol, 
-                  data = WhiteWineData, 
-                  geom = 'boxplot',
-                  xlab = "rating",
-                  ylab = "% by volume")+
-  coord_cartesian(ylim=c(9,13))
-
-grid.arrange(alcohol1, alcohol2)
 ```
 
 ### 12. Quality
@@ -450,7 +316,7 @@ summary(WhiteWineData$quality.bins)
 ```
 
 
-```{r echo=FALSE, Quality_Plots}
+```{r echo=FALSE, Quality}
 quality1 <- qplot(data = WhiteWineData, 
                   x = WhiteWineData$quality, 
                   xlab = "rating",
@@ -526,6 +392,123 @@ ordered factor so that box plots would show each individual rating as its own
 category.  
 
 # Bivariate Plots Section
+
+```{r echo=FALSE, Output_Variables}
+# Create new variable
+WhiteWineData$quality.bins <- cut(WhiteWineData$quality, 
+                                  breaks = c(0, 4, 6, 10), 
+                                  labels = c('bad','average','good')) 
+summary(WhiteWineData$quality.bins)
+
+# Convert quality ratings to factored levels
+WhiteWineData$quality <- factor(WhiteWineData$quality, 
+                                levels = c(0:10), 
+                                order = TRUE)
+```
+
+### Comparing Quality 
+volatile acidity =   As the boxplot below confirms this, bad wines have a 
+median acetic acid level slightly above .3, while average to good wines have 
+less.  
+
+chlorides =  Looking at the boxplots of Chloride distribtion across each
+quality rating, it looks like good wines have a lower level of sodium chloride
+on average compared to bad and average wines.  
+
+free sulfur dioxide = The boxplot shows that bad wines have a lower free 
+sulfur dioxide level compared to average and good wines.  
+
+```{r echo=FALSE, Box_Plots}
+fixed.acidity <- qplot(x = quality.bins, 
+                       y = fixed.acidity, 
+                       data = WhiteWineData, 
+                       geom = 'boxplot',
+                       xlab = "rating",
+                       ylab = "g / dm^3") +
+  coord_cartesian(ylim=c(6,8))
+
+volatile.acidity <- qplot(x = quality.bins, 
+                          y = volatile.acidity,
+                          data = WhiteWineData, 
+                          geom = 'boxplot',
+                          xlab = "rating",
+                          ylab = "g / dm^3") +
+  coord_cartesian(ylim=c(.15,.5))
+
+citric.acid <- qplot(x = quality.bins,
+                     y = citric.acid,
+                     data = WhiteWineData,
+                     geom = 'boxplot',
+                     xlab = "rating",
+                     ylab = "g / gm^3") +
+  coord_cartesian(ylim=c(.15,.45))
+
+residual.sugar <- qplot(x = quality.bins,
+                        y = residual.sugar,
+                        data = WhiteWineData,
+                        geom = 'boxplot',
+                        xlab = "rating",
+                        ylab = "g / dm^3") + 
+  coord_cartesian(ylim=c(0,12.5))
+
+chlorides <- qplot(x = quality.bins,
+                   y = chlorides,
+                   data = WhiteWineData,
+                   geom = 'boxplot',
+                   xlab = "rating",
+                   ylab = "g / dm^3") +
+  coord_cartesian(ylim=c(0.025,.06))
+
+free.sulfur.dioxide <- qplot(x = quality.bins,
+                             y = free.sulfur.dioxide,
+                             data = WhiteWineData,
+                             geom = 'boxplot',
+                             xlab = "rating",
+                             ylab = "mg / dm^3") +
+  coord_cartesian(ylim=c(0,60))
+
+total.sulfur.dioxide <- qplot(x = quality.bins, 
+                              y = total.sulfur.dioxide, 
+                              data = WhiteWineData, 
+                              geom = 'boxplot',
+                              xlab = "rating",
+                              ylab = "mg / dm^3") +
+  coord_cartesian(ylim=c(75,200))
+
+density <- qplot(x = quality.bins, 
+                  y = density, 
+                  data = WhiteWineData, 
+                  geom = 'boxplot',
+                  xlab = "rating",
+                  ylab = "g / cm^3") +
+  coord_cartesian(ylim=c(.99,.9975))
+
+pH <- qplot(x = quality.bins, 
+             y = pH, 
+             data = WhiteWineData, 
+             geom = 'boxplot',
+             xlab = "rating",
+             ylab = "pH") +
+  coord_cartesian(ylim=c(3,3.35))
+
+sulphates <- qplot(x = quality.bins, 
+                    y = sulphates,
+                    data = WhiteWineData,
+                    geom = 'boxplot',
+                    xlab = "rating",
+                    ylab = "g / dm^3")+
+  coord_cartesian(ylim=c(.35,.6))
+
+alcohol <- qplot(x = quality.bins, 
+                  y = alcohol, 
+                  data = WhiteWineData, 
+                  geom = 'boxplot',
+                  xlab = "rating",
+                  ylab = "% by volume")+
+  coord_cartesian(ylim=c(9,13))
+
+grid.arrange(fixed.acidity, volatile.acidity, citric.acid, residual.sugar, chlorides, free.sulfur.dioxide, total.sulfur.dioxide, density, pH, sulphates, alcohol, ncol= 2)
+```
 
 To analyze pairs of variables, I decided to create a scatterplot matrix to see 
 which combinations of variables had the most meaningful correlation
