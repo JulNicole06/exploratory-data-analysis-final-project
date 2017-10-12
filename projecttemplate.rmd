@@ -23,6 +23,7 @@ output:
 library(ggplot2)
 library(ggthemes)
 library(gridExtra)
+library(dplyr)
 library(GGally)
 ```
 
@@ -419,95 +420,64 @@ free sulfur dioxide = The boxplot shows that bad wines have a lower free
 sulfur dioxide level compared to average and good wines.  
 
 ```{r echo=FALSE, Box_Plots}
-fixed.acidity <- qplot(x = quality.bins, 
-                       y = fixed.acidity, 
-                       data = WhiteWineData, 
-                       geom = 'boxplot',
-                       xlab = "rating",
-                       ylab = "g / dm^3") +
-  coord_cartesian(ylim=c(6,8))
-
-volatile.acidity <- qplot(x = quality.bins, 
-                          y = volatile.acidity,
-                          data = WhiteWineData, 
-                          geom = 'boxplot',
-                          xlab = "rating",
-                          ylab = "g / dm^3") +
-  coord_cartesian(ylim=c(.15,.5))
-
-citric.acid <- qplot(x = quality.bins,
-                     y = citric.acid,
-                     data = WhiteWineData,
-                     geom = 'boxplot',
-                     xlab = "rating",
-                     ylab = "g / gm^3") +
-  coord_cartesian(ylim=c(.15,.45))
-
-residual.sugar <- qplot(x = quality.bins,
-                        y = residual.sugar,
-                        data = WhiteWineData,
-                        geom = 'boxplot',
-                        xlab = "rating",
-                        ylab = "g / dm^3") + 
-  coord_cartesian(ylim=c(0,12.5))
-
-chlorides <- qplot(x = quality.bins,
-                   y = chlorides,
-                   data = WhiteWineData,
-                   geom = 'boxplot',
-                   xlab = "rating",
-                   ylab = "g / dm^3") +
-  coord_cartesian(ylim=c(0.025,.06))
-
-free.sulfur.dioxide <- qplot(x = quality.bins,
-                             y = free.sulfur.dioxide,
-                             data = WhiteWineData,
-                             geom = 'boxplot',
-                             xlab = "rating",
-                             ylab = "mg / dm^3") +
-  coord_cartesian(ylim=c(0,60))
-
-total.sulfur.dioxide <- qplot(x = quality.bins, 
-                              y = total.sulfur.dioxide, 
-                              data = WhiteWineData, 
-                              geom = 'boxplot',
-                              xlab = "rating",
-                              ylab = "mg / dm^3") +
-  coord_cartesian(ylim=c(75,200))
-
-density <- qplot(x = quality.bins, 
-                  y = density, 
-                  data = WhiteWineData, 
-                  geom = 'boxplot',
-                  xlab = "rating",
-                  ylab = "g / cm^3") +
-  coord_cartesian(ylim=c(.99,.9975))
-
-pH <- qplot(x = quality.bins, 
-             y = pH, 
-             data = WhiteWineData, 
-             geom = 'boxplot',
-             xlab = "rating",
-             ylab = "pH") +
-  coord_cartesian(ylim=c(3,3.35))
-
-sulphates <- qplot(x = quality.bins, 
-                    y = sulphates,
-                    data = WhiteWineData,
-                    geom = 'boxplot',
-                    xlab = "rating",
-                    ylab = "g / dm^3")+
-  coord_cartesian(ylim=c(.35,.6))
-
-alcohol <- qplot(x = quality.bins, 
-                  y = alcohol, 
-                  data = WhiteWineData, 
-                  geom = 'boxplot',
-                  xlab = "rating",
-                  ylab = "% by volume")+
+alcohol_by_quality <- ggplot(aes(x = quality, 
+                                 y = alcohol),
+                             data = WhiteWineData) + 
+  geom_boxplot() +
+  stat_summary(fun.y = mean, 
+               geom = 'point', 
+               shape = 4) +
   coord_cartesian(ylim=c(9,13))
 
-grid.arrange(fixed.acidity, volatile.acidity, citric.acid, residual.sugar, chlorides, free.sulfur.dioxide, total.sulfur.dioxide, density, pH, sulphates, alcohol, ncol= 2)
+density_by_quality <-ggplot(aes(x = quality, 
+                                y = density),
+                            data = WhiteWineData) + 
+  geom_boxplot() +
+  stat_summary(fun.y = mean, 
+               geom = 'point', 
+               shape = 4) +
+  coord_cartesian(ylim=c(.9875,.9975))
+  
+chlorides_by_quality <-ggplot(aes(x = quality, 
+                                  y = chlorides),
+                              data = WhiteWineData) + 
+  geom_boxplot() +
+  stat_summary(fun.y = mean, 
+               geom = 'point', 
+               shape = 4) +
+  coord_cartesian(ylim=c(0.02,.06))
+  
+grid.arrange(alcohol_by_quality, density_by_quality, chlorides_by_quality)
+```
+### Comparing Quality Ratings to Each Component
+
+Since "quality" is ordinal, I used Spearmans correlation to compare each variable to the quality ratings.  The highest correlations were:
+chlorides: -0.3144885 
+density: -0.348351 
+alcohol: 0.4403692
+
+```{r echo=FALSE}
+with(WhiteWineData, cor.test(quality, fixed.acidity, method='spearman'))
+
+with(WhiteWineData, cor.test(quality, volatile.acidity, method='spearman'))
+
+with(WhiteWineData, cor.test(quality, citric.acid, method='spearman'))
+
+with(WhiteWineData, cor.test(quality, residual.sugar, method='spearman'))
+
+with(WhiteWineData, cor.test(quality, chlorides, method='spearman'))
+
+with(WhiteWineData, cor.test(quality, free.sulfur.dioxide, method='spearman'))
+
+with(WhiteWineData, cor.test(quality, total.sulfur.dioxide, method='spearman'))
+
+with(WhiteWineData, cor.test(quality, density, method='spearman'))
+
+with(WhiteWineData, cor.test(quality, pH, method='spearman'))
+
+with(WhiteWineData, cor.test(quality, sulphates, method='spearman'))
+
+with(WhiteWineData, cor.test(quality, alcohol, method='spearman'))
 ```
 
 To analyze pairs of variables, I decided to create a scatterplot matrix to see 
@@ -515,7 +485,7 @@ which combinations of variables had the most meaningful correlation
 coefficients.  
 
 ```{r echo=FALSE, Bivariate_Plots}
-bivariate_scatter_matrix <- ggpairs(subset(WhiteWineData, select = -c(X, quality, quality.bins)))
+bivariate_scatter_matrix <- ggpairs(subset(WhiteWineData, select = -c(X)))
 
 bivariate_scatter_matrix
 ```
