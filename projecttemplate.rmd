@@ -528,66 +528,76 @@ category.
 # Bivariate Plots Section
 
 To analyze pairs of variables, I decided to create a scatterplot matrix to see 
-which combinations of variables had the most meaningful correlation coefficients
-
-1. Density and Residual Sugar = 0.839
-
-2. Density and Alcohol = -0.78
-
-3. Free Sulfur Dioxide and Total Sulfur Dioxide = 0.401
-
-4. Density and Total Sulfur Dioxide = 0.53
-
-Since Free Sulfur Dioxide is a part of the Total Sulfur Dioxide, I decided to 
-ignore this correlation since it's obvious that as free sulfur dioxide 
-increases, the total sulfur dioxide would also increase.
+which combinations of variables had the most meaningful correlation
+coefficients.  
 
 ```{r echo=FALSE, Bivariate_Plots}
-library("GGally")
-data_subset <- subset(WhiteWineData, select = -c(X, quality, quality.bins))
-ggpairs(data_subset)
+bivariate_scatter_matrix <- ggpairs(subset(WhiteWineData, select = -c(X, quality, quality.bins)))
+
+bivariate_scatter_matrix
 ```
 
+### Density vs Total Sulfur Dioxide
 
-```{r echo=FALSE, }
-ggplot(aes(x=density, y=residual.sugar), data = WhiteWineData) +
-  geom_point() +
-  geom_smooth(method = 'lm', color = 'red')
+```{r echo=FALSE, Density_vs_Total_Sulfur_Dioxide}
+density_vs_total.sulfur.dioxide <- bivariate_scatter_matrix[8,7]
+density_vs_total.sulfur.dioxide <- density_vs_total.sulfur.dioxide +
+  coord_cartesian(xlim = c(0,300), ylim=c(0.985, 1.005)) +
+  geom_smooth(method='lm', color = I('green'), linetype = 2)
+density_vs_total.sulfur.dioxide 
 ```
 
-```{r echo=FALSE, }
-ggplot(aes(x=density, y=alcohol), data = WhiteWineData) +
-  geom_point() +
-  geom_smooth(method = 'lm', color = 'red')
+### Alcohol vs Chlorides
+
+```{r echo=FALSE, Alcohol_vs_Chlorides}
+alcohol_vs_chlorides <- bivariate_scatter_matrix[11,5]
+alcohol_vs_chlorides <- alcohol_vs_chlorides +
+  geom_smooth(method='auto', color = I('red'), linetype = 2)
+alcohol_vs_chlorides 
 ```
 
-```{r echo=FALSE, }
-ggplot(aes(x=density, y=total.sulfur.dioxide), data = WhiteWineData) +
-  geom_point() +
-  geom_smooth(method = 'lm', color = 'red')
-```
 
 # Bivariate Analysis
-
-> **Tip**: As before, summarize what you found in your bivariate explorations
-here. Use the questions below to guide your discussion.
 
 ### Talk about some of the relationships you observed in this part of the \
 investigation. How did the feature(s) of interest vary with other features in \
 the dataset?
 
+### What was the strongest relationship you found?
+I used the following rule of thumb to determine which pairs of
+variables I would analyze further:
+
+correlation coefficient of +- 0.3 = small correlation
+correlation coefficient of +- 0.5 = moderate correlation
+correlation coefficient of +- 0.7 = significant correlation
+
+The top 3 strongest relationships I found were:
+
+- Density and Residual Sugar = 0.839
+- Density and Alcohol = -0.78
+- Free Sulfur Dioxide and Total Sulfur Dioxide = 0.616
+
+Since Density is determined by the alcohol and sugar content in the wine, it is 
+not surprising that both alcohol and sugar would be highly correlated with
+density.  As well, free sulfur dioxide is a component of the total sulfur
+dioxide, so this correlation would be expected as well.  
+
 ### Did you observe any interesting relationships between the other features \
 (not the main feature(s) of interest)?
 
-### What was the strongest relationship you found?
+- Density and Total Sulfur Dioxide = 0.53
+- Alcohol and Chlorides = -0.36
 
+(Alcohol and Total Sulfur Dioxide = -0.449
+Sugar and Total Sulfur Dioxide = 0.401
+pH and Fixed Acidity = -0.426)
 
 # Multivariate Plots Section
 
 ```{r echo=FALSE, Multivariate_Plots}
-scatter_matrix  <- ggpairs(WhiteWineData, columns = c('density', 'residual.sugar', 'alcohol', 'free.sulfur.dioxide', 'total.sulfur.dioxide'), mapping = aes(color = quality.bins))
+multivariate_scatter_matrix  <- ggpairs(WhiteWineData, columns = c('density', 'chlorides', 'alcohol', 'total.sulfur.dioxide'), mapping = aes(color = quality))
 
-scatter_matrix
+multivariate_scatter_matrix
 ```
 ```
 
