@@ -404,7 +404,7 @@ ggplot(aes(x = density,
   coord_cartesian(xlim=c(0.985,1.01),
                   ylim=c(0,30)) +
   geom_smooth(method='auto', linetype = 2) +
-  geom_vline(xintercept=0.993, color = 'red')
+  geom_vline(xintercept=0.995, color = 'red')
 ```
 
 ### Density vs Alcohol
@@ -416,7 +416,7 @@ ggplot(aes(x = density,
   geom_jitter(alpha = 0.15) +
   coord_cartesian(xlim=c(0.985,1.01)) +
   geom_smooth(method='auto', linetype = 2) +
-  geom_vline(xintercept=0.993, color = 'red')
+  geom_vline(xintercept=0.995, color = 'red')
 ```
 
 
@@ -525,12 +525,13 @@ ggplot(aes(x=residual.sugar,
 
 ### Talk about some of the relationships you observed in this part of the \
 investigation. Were there features that strengthened each other in terms of \
-looking at your feature(s) of interest?
+looking at your feature(s) of interest? Were there any interesting or surprising
+interactions between features?
 
-### Were there any interesting or surprising interactions between features?
-
-### OPTIONAL: Did you create any models with your dataset? Discuss the \
-strengths and limitations of your model.
+It was clear in the first plot that higher quality wines have a low density with
+a high alcohol % by volume.  As well, this relationship is maintained with a 
+low residual sugar content.  Overall, quality wines have a smaller sugar to
+alcohol ratio for a lower density level.
 
 ------
 
