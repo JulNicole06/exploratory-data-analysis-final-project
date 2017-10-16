@@ -537,37 +537,51 @@ alcohol ratio for a lower density level.
 
 # Final Plots and Summary
 
-> **Tip**: You've done a lot of exploration and have built up an understanding
-of the structure of and relationships between the variables in your dataset.
-Here, you will select three plots from all of your previous exploration to
-present here as a summary of some of your most interesting findings. Make sure
-that you have refined your selected plots for good titling, axis labels (with
-units), and good aesthetic choices (e.g. color, transparency). After each plot,
-make sure you justify why you chose each plot by describing what it shows.
-
 ### Plot One
 ```{r echo=FALSE, Plot_One}
-
+ggplot(aes(x = quality.buckets, 
+           y = alcohol),
+       data = WhiteWineData) + 
+  geom_boxplot() +
+  stat_summary(fun.y = mean, 
+               geom = 'point', 
+               shape = 4) +
+  coord_cartesian(ylim=c(9,13))
 ```
 
 ### Description One
-
+The highest correlation with the quality ratings of white wine was the alcohol
+% by volume.  Higher quality wines have more than 11% alcohol by volume.
 
 ### Plot Two
 ```{r echo=FALSE, Plot_Two}
-
+ggplot(aes(x=alcohol,
+           y = density), 
+       data = WhiteWineData) +
+  geom_point(aes(color=quality.buckets)) +
+  coord_cartesian(ylim=c(0.985, 1.005))
 ```
 
 ### Description Two
-
+Density was also correlated with quality.  Higher quality wines had a lower 
+density comparted to bad and average wines.  When compared in combination to 
+alcohol levels, the relationships are maintained.  Quality wines have a lower
+density with a higher alcohol content.
 
 ### Plot Three
 ```{r echo=FALSE, Plot_Three}
-
+ggplot(aes(x=residual.sugar,
+           y = density), 
+       data = WhiteWineData) +
+  geom_point(aes(color=alcohol)) +
+  scale_x_log10() +
+  coord_cartesian(ylim=c(0.985, 1.005))
 ```
 
 ### Description Three
-
+The highest correlation was between residual sugar and density.  Adding in a 
+comparison with alcohol content, it is clear that the optimal ratio for a low
+density wine is lower residual sugar content to higher alcohol content.
 ------
 
 # Reflection
