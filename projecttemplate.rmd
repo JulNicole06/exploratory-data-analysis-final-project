@@ -128,12 +128,18 @@ summary(WhiteWineData$residual.sugar)
 ```{r echo=FALSE, Residual_Sugar}
 residual.sugar1 <- qplot(data = WhiteWineData, 
                          x = WhiteWineData$residual.sugar,
-                         binwidth = .1,
+                         binwidth = 1,
                          xlab = "g / dm^3",
                          color = I("black"),
                          fill = I("dark grey"))
 
-residual.sugar2 <- residual.sugar1 + scale_x_log10()
+residual.sugar2 <- qplot(data = WhiteWineData, 
+                         x = WhiteWineData$residual.sugar,
+                         xlab = "g / dm^3",
+                         binwidth = .1,
+                         color = I("black"),
+                         fill = I("dark grey")) + 
+  scale_x_log10(breaks = seq(1,10,1))
 
 grid.arrange(residual.sugar1, residual.sugar2)
 ```
@@ -397,7 +403,8 @@ ggplot(aes(x = density,
   geom_jitter(alpha = 0.1) +
   coord_cartesian(xlim=c(0.985,1.01),
                   ylim=c(0,30)) +
-  geom_smooth(method='auto', linetype = 2)
+  geom_smooth(method='auto', linetype = 2) +
+  geom_vline(xintercept=0.993, color = 'red')
 ```
 
 ### Density vs Alcohol
@@ -408,7 +415,8 @@ ggplot(aes(x = density,
        data=WhiteWineData) +
   geom_jitter(alpha = 0.15) +
   coord_cartesian(xlim=c(0.985,1.01)) +
-  geom_smooth(method='auto', linetype = 2)
+  geom_smooth(method='auto', linetype = 2) +
+  geom_vline(xintercept=0.993, color = 'red')
 ```
 
 
@@ -438,7 +446,7 @@ alcohol.  Interestingly, when looking at the wine in my house, the only
 componenet on the labels that I could use for comparison when shopping for wine
 is the alcohol % by volume.  Looking at the mean and median alcohol content for
 each quality rating, a good rule of thumb is a good quality wine will have 
-approximately 11-13 % alcohol by volume.
+approximately 11% alcohol by volume or more.
 
 ```{r echo=FALSE, Alcohol_Quality_Summary}
 quality_groups <- group_by(WhiteWineData, quality)
@@ -458,20 +466,59 @@ The top 2 strongest relationships I found among the remaining features were:
 - Density and Residual Sugar = 0.839
 - Density and Alcohol = -0.78
 
-Looking at the plots, it looks like up around 0.9925 Density, residual sugar 
-increases slowly, and then after 0.9925 the rate of increase is larger.  
+Looking at the plots, it looks like at around 0.993 Density, residual sugar 
+increases slowly, and then after 0.993 the rate of increase is larger.  
 Alcohol content on the other hand decreases at a high rate and then tapers off
 around this same density threshold.  
 
 # Multivariate Plots Section
 
-```{r echo=FALSE, Multivariate_Plots}
-ggplot(aes(x=residual.sugar, y = density), data = WhiteWineData) +
-  geom_point(aes(color = alcohol)) +
-  coord_cartesian(xlim=c(0,25),
-                  ylim=c(0.985,1.005)) +
-  geom_smooth(method='auto')
+### Alcohol, Density, Quality
+
+```{r echo=FALSE, Quality_Alcohol_Density}
+ggplot(aes(x=alcohol,
+           y = density), 
+       data = WhiteWineData) +
+  geom_point(aes(color=quality.buckets)) +
+  coord_cartesian(ylim=c(0.985, 1.005))
 ```
+
+### Alcohol, Sugar, Density
+
+```{r echo=FALSE, Alcohol_Density_Sugar}
+ggplot(aes(x=residual.sugar,
+           y = density), 
+       data = WhiteWineData) +
+  geom_point(aes(color=alcohol)) +
+  scale_x_log10() +
+  coord_cartesian(ylim=c(0.985, 1.005))
+```
+
+### Alcohol, Sugar, Density, Quality
+
+```{r echo=FALSE, Density_vs_Sugar_Alcohol_Ratio}
+
+#Create sugar/alcohol ratio variable
+WhiteWineData <- transform(WhiteWineData,
+                           sugar.alcohol.ratio = residual.sugar/alcohol)
+
+ggplot(aes(x=sugar.alcohol.ratio, 
+           y = density), 
+       data = WhiteWineData) +
+  geom_point(aes(color =quality.buckets)) +
+  coord_cartesian(ylim=c(.985,1.005),
+                  xlim=c(0,2)) +
+  geom_vline(xintercept=1)
+```
+
+### Sugar, Alcohol, Quality
+
+```{r echo=FALSE, sugar_vs_alcohol_by_quality}
+ggplot(aes(x=residual.sugar,
+           y = alcohol), 
+       data = WhiteWineData) +
+  geom_point(aes(color=quality.buckets)) +
+  scale_x_log10()
 ```
 
 # Multivariate Analysis
