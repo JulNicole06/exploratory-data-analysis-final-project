@@ -308,13 +308,11 @@ table(WhiteWineData$quality)
 ```
 
 ```{r echo=FALSE, Quality}
-qplot(data = WhiteWineData, 
-      x = WhiteWineData$quality, 
-      binwidth = 1,
-      xlab = "Quality Rating",
-      color = I("black"),
-      fill = I("yellow green")) +
-  scale_x_continuous(breaks=seq(3,9,1))
+ggplot(aes(x=quality),
+       data = WhiteWineData) +
+  geom_bar(fill = 'yellow green') +
+  scale_x_continuous(breaks=seq(3,9,1)) +
+  xlab("Quality Rating") 
 ```
 
 # Univariate Analysis
